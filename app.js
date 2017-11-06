@@ -1,4 +1,4 @@
-console.log('starting app.js');
+// console.log('starting app.js');
 
 const fs = require('fs');
 const _ = require('lodash');
@@ -9,33 +9,37 @@ const notes = require('./notes.js');
 const command = process.argv[2];
 const argv = yargs.argv;
 
-console.log('Yargs',argv);
-console.log('Args',process.argv);
-// let flag = 0;
-//
-const loggingFunc = (input) => {
-    console.log(input);
-};
-//
 const permittedCommands = ['add','list','read','remove'];
 
 permittedCommands.map((values)=>{
     if(command.indexOf(values) === -1 ){
     console.log('Command not found');
-    // flag++;
     } else{
        switch(command){
           case 'add':
-             notes.addNote(argv.title,argv.body);
+             let note = notes.addNote(argv.title,argv.body);
+             console.log(note);
+              if (note){
+                  notes.logNotes('Added',note);
+              }else{
+                  console.log('Duplicate title Already Exists');
+              }
              break;
           case 'list':
              notes.getAll();
              break;
           case 'read':
-             notes.readNote(argv.title);
-             break;
+              let note2 = notes.readNote(argv.title);
+              if (note2){
+                  notes.logNotes('Read',note2);
+
+              }else{
+                  console.log('Note not Read');
+              }
+              break;
           case 'remove':
-             notes.removeNote(argv.title);
+             let noteRemoved = notes.removeNote(argv.title);
+             (noteRemoved) ? console.log('Note Removed'):console.log('Note Not Removed');
              break;
         }
     }
