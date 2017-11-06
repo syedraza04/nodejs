@@ -1,19 +1,43 @@
-// console.log('starting app.js');
+console.log('starting app.js');
 
 const fs = require('fs');
-const os = require('os');
 const _ = require('lodash');
 
 const notes = require('./notes.js');
 
-let addNote = notes.addNote();
-const user = os.userInfo();
+let command = process.argv[2];
+console.log(command);
+let flag = 0;
 
-console.log(_.isString('true'));
-console.log(_.uniq([23,1,4,4,2,4,4]));
+const loggingFunc = (input) => {
+    console.log(input);
+};
 
-fs.appendFile('greetings.txt',`Hello ${user.username}! You are ${notes.age} years old and addition is ${notes.addNote(2,9)}`,function(err){
-    console.log(err);
+const permittedCommands = ['add','list','read','remove'];
+
+permittedCommands.map((values)=>{
+    if(command.indexOf(values) === -1 && flag === 0){
+    console.log('Command not found');
+    flag++;
+   }else{
+
+        switch(command){
+            case 'add':
+                loggingFunc('adding new note');
+                break;
+            case 'list':
+                loggingFunc('Listing all notes');
+                break;
+            case 'read':
+                loggingFunc('Reading note');
+                break;
+            case 'remove':
+                loggingFunc('Removing note');
+                break;
+        }
+    }
+
 });
 
-// console.log('user: ');
+
+
