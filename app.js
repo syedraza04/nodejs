@@ -7,7 +7,36 @@ const yargs=require('yargs');
 const notes = require('./notes.js');
 
 const command = process.argv[2];
-const argv = yargs.argv;
+
+const titleOptions = {
+
+        describe: 'Title of note',
+        demand: true,  // this is done to make the add command require title,
+        alias: 't' //instead of node app.js add --title now we can use node app.js add -t = 'name'
+
+};
+const bodyOptions =  {
+    describe:'Body of note',
+    demand: true,  // this is done to make the add command require title,
+    alias: 'b' //instead of node app.js add --title now we can use node app.js add -t = 'name'
+};
+
+const argv = yargs
+             .command('add','Add a new note',{
+               title:titleOptions,
+               body:bodyOptions
+             })
+             .command('list','list all notes')
+             .command('read','Read a note',{
+               title:titleOptions
+             })
+             .command('remove','Remove a note',{
+                 title:titleOptions,
+             })
+             .help()
+             .argv;
+
+//to see this in action "node app.js add --help"
 
 const permittedCommands = ['add','list','read','remove'];
 
